@@ -105,20 +105,42 @@ end
 -- https://wiki.apico.buzz/wiki/Modding_API#click()
 function click(button, click_type)
 
-  mouse_pos2 = api_get_mouse_position()
-  fake_rock_checker = api_get_inst_in_circle("obj", mouse_pos2["x"], mouse_pos2["y"], 2)
-  if fake_rock_checker ~= nil then
-    for i, obj in ipairs(fake_rock_checker) do
-      if api_gp(obj["id"], "oid") == "geology_fake_rock" then
-        if string.find(api_get_equipped(), "pickaxe") then -- Checks for the word "axe" in the oid of the item held for mod compatibility
-          api_destroy_inst(obj["id"])
-        --chance = api_random(1)
-        --if chance == 0 then
-          local mouse_pos = api_get_mouse_position()
-          api_create_item("bee", 1, mouse_pos.x, mouse_pos.y, api_create_bee_stats("mineralbee", false)) -- credits: ThatGravyBoat
+  if button == "LEFT" and click_type == "PRESSED" then
+    api_log("debug", "clicked")
+    highlighted = api_get_highlighted("obj")
+      if highlighted ~= nil then
+       api_log("debug", "clicked on highlighted")
+      inst = api_get_inst(highlighted)
+        if inst["oid"] == "stone" then
+          api_log("debug", "highlighted is a stone, starting timer")
+              api_create_timer("giver", 0.1)
+        else
+          api_log("debug", "clicked on something that isn't a stone. nothing happens")
+        end
+        else
+          api_log("debug", "clicked on nothing. nothing happens")
         end
       end
     end
+
+
+
+  function giver()
+    tree_checker = api_get_highlighted("obj")
+    api_log("debug", "timer finished, checking for destroyed stone")
+    if tree_checker == nil then
+      api_log("debug", "nothing highlighted. testing your luck")
+        chance = api_random(1)
+        if chance == 0 then
+          api_log("debug", "lucky. have a bee")
+          mouse_pos = api_get_mouse_position()
+          stats = api_create_bee_stats("mineralbee", false)
+          api_create_item("bee", 1, mouse_pos["x"], mouse_pos["y"], stats)
+        else
+          api_log("debug", "unlucky. nothing happens")
+    end
+  else
+    api_log("debug", "you still have something highlighted. nothing happens")
   end
   
   -- check if we right click out book item to open the book

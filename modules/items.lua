@@ -39,17 +39,6 @@ function define_item()
   local res = api_define_item(obsidian_def, "sprites/obsidian.png")
   api_log("Obsidian define", res)
 
-  local fake_rock_def = {
-    id = "fake_rock",
-    name = "Fake Rock",
-    category = "Construction",
-    tooltip = "A fake rock",
-    placeable = true,
-    obj = "fake_rock"
-  }
-  local res = api_define_item(fake_rock_def, "sprites/fakerock.png")
-  api_log("Fake Rock define", res)
-
   local glass_def = {
     id = "glass",
     name = "Glass",
@@ -72,20 +61,19 @@ function define_item()
   -- Obsidian Tool Set 
   api_define_item({
     id = "obsidian_axe",
-    name = "Cool Axe",
-    category = "Decoration",
-    tooltip = "This is a cool axe!",
+    name = "Obsidian Axe",
+    category = "Tool",
+    tooltip = "An axe made of obsidian. It is suprisingly durable",
     shop_key = false,
     shop_buy = 0,
     shop_sell = 0,
-    durability = 50,
+    durability = 1000,
     singular = true
   }, "sprites/obsidian_axe.png")
   -- add the item to the workbench as a recipe
   recipe = {
-    { item = "log", amount = 10 },
-    { item = "waterproof", amount = 20 },
-    { item = "glue", amount = 5 }
+    { item = "stick", amount = 10 },
+    { item = "obsidian", amount = 20 }
   }
   res = api_define_recipe("tools", MOD_NAME .. "_obsidian_axe", recipe, 1)
 
