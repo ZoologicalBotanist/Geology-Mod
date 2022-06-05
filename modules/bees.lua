@@ -8,7 +8,7 @@ function define_bee()
     id = "mineralbee",
     title = "Mineral",
     latin = "Apis Mineralis",
-    hint = "This bee is extinct in the wild. Perhaps an ancient being or automaton will have some...",
+    hint = "These bees have been extinct in the wild for centuries, perhaps there is an ancient stone automaton that sells them...",
     desc = "This bee is the ancestor from which all other geological bees diverged.",
     lifespan = {"Normal"},
     productivity = {"Normal", "Fast"},
@@ -44,7 +44,7 @@ function define_bee()
     latin = "Minerapis Magmus",
     hint = "The fiery cousin of mineral bees",
     desc = "Descended from mineral bees, these bees burn with the heat of molten rock. Even touching one can be painful without proper equipment.",
-    lifespan = {"Hyper"},
+    lifespan = {"Rapid", "Short"},
     productivity = {"Normal", "Fast"},
     fertility = {"Fertile", "Fecund"},
     stability = {"Normal", "Unstable"},
@@ -142,9 +142,6 @@ function define_bee()
     "Local APICO beekeeper drops magma bee in water, discovers new species!"
   )
   api_log("Obsidian Bee defined", res)
-
-  local res = api_define_recipe("beekeeping", MOD_NAME .. "_obsidianbee", recipe, 1)
-  api_log("Obsidian Bee recipe defined", res)
 end
 
 function magma_bee_recipe()

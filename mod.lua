@@ -48,7 +48,17 @@ function ready()
     api_create_obj("geology_geology_book", -32, -32)
   end
 
-
+  fake_rock_number = api_get_menu_objects(nil, "geology_fake_rock")
+  if #fake_rock_number == 0 then
+    player = api_get_player_position()
+    center = api_get_inst_in_circle("tree", player["x"], player["y"], 40)
+    random = api_choose(center)
+    ground = api_get_ground(random["x"], random["y"])
+    if ground == "grass1" or ground == "grass2" or ground == "grass3" or ground == "grass4" then
+      api_create_obj("geology_fake_rock", random["x"], random["y"])
+    end
+  end
+  
   -- play a sound to celebrate our mod loading! :D
   api_play_sound("confetti")
 
@@ -94,6 +104,22 @@ end
 -- click is called whenever the player clicks
 -- https://wiki.apico.buzz/wiki/Modding_API#click()
 function click(button, click_type)
+
+  mouse_pos2 = api_get_mouse_position()
+  fake_rock_checker = api_get_inst_in_circle("obj", mouse_pos2["x"], mouse_pos2["y"], 2)
+  if fake_rock_checker ~= nil then
+    for i, obj in ipairs(fake_rock_checker) do
+      if api_gp(obj["id"], "oid") == "geology_fake_rock" then
+        if string.find(api_get_equipped(), "pickaxe") then -- Checks for the word "axe" in the oid of the item held for mod compatibility
+          api_destroy_inst(obj["id"])
+        --chance = api_random(1)
+        --if chance == 0 then
+          local mouse_pos = api_get_mouse_position()
+          api_create_item("bee", 1, mouse_pos.x, mouse_pos.y, api_create_bee_stats("mineralbee", false)) -- credits: ThatGravyBoat
+        end
+      end
+    end
+  end
   
   -- check if we right click out book item to open the book
   if button == "RIGHT" and click_type == "PRESSED" then
@@ -107,5 +133,5 @@ function click(button, click_type)
       end
     end
   end
-  
+
 end
